@@ -1,0 +1,20 @@
+{
+  "name": "obsidian-github-sync",
+  "version": "1.0.0",
+  "description": "Sync Obsidian vault with GitHub via isomorphic-git",
+  "main": "main.js",
+  "scripts": {
+    "dev": "node esbuild.config.mjs",
+    "build": "tsc --noEmit && node esbuild.config.mjs production"
+  },
+  "dependencies": {
+    "isomorphic-git": "^1.27.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "builtin-modules": "^4.0.0",
+    "esbuild": "^0.25.0",
+    "obsidian": "latest",
+    "typescript": "^5.8.0"
+  }
+}
