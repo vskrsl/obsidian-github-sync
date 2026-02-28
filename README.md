@@ -17,10 +17,21 @@ Free alternative to [Obsidian Sync](https://obsidian.md/sync) — automatically 
 
 ## Installation
 
-1. Download `main.js` and `manifest.json` from [Releases](../../releases)
-2. Create folder `<your-vault>/.obsidian/plugins/github-sync/`
-3. Copy both files into that folder
-4. Open Obsidian → Settings → Community plugins → enable **GitHub Sync**
+```bash
+git clone https://github.com/vskrsl/obsidian-github-sync.git
+cd obsidian-github-sync
+npm install
+npm run build
+```
+
+Then copy `main.js` and `manifest.json` into your vault:
+
+```bash
+mkdir -p "<vault>/.obsidian/plugins/github-sync"
+cp main.js manifest.json "<vault>/.obsidian/plugins/github-sync/"
+```
+
+Open Obsidian → Settings → Community plugins → enable **GitHub Sync**.
 
 ## Setup
 
