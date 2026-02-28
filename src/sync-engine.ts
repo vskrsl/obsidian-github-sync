@@ -43,6 +43,10 @@ export class SyncEngine {
 
   // ─── Init ────────────────────────────────────────────────────────────────────
 
+  isInitialized(): boolean {
+    return fs.existsSync(path.join(this.dir, ".git"));
+  }
+
   async initRepo(): Promise<void> {
     const gitDir = path.join(this.dir, ".git");
     const alreadyInit = fs.existsSync(gitDir);

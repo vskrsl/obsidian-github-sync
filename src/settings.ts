@@ -157,24 +157,30 @@ export class GitHubSyncSettingTab extends PluginSettingTab {
     // --- Actions ---
     containerEl.createEl("h3", { text: "Actions" });
 
+    const alreadyInit = this.plugin.syncEngine.isInitialized();
+
     new Setting(containerEl)
       .setName("Initialize repository")
       .setDesc(
-        "Set up git in the current vault and connect to the GitHub repository. Run this once on first use."
+        alreadyInit
+          ? "Repository is already initialized in this vault."
+          : "Set up git in the current vault and connect to the GitHub repository. Run this once on first use."
       )
-      .addButton((btn) =>
+      .addButton((btn) => {
         btn
-          .setButtonText("Initialize")
+          .setButtonText(alreadyInit ? "Initialized" : "Initialize")
           .setCta()
+          .setDisabled(alreadyInit)
           .onClick(async () => {
             try {
               await this.plugin.syncEngine.initRepo();
               new Notice("Repository initialized successfully.");
+              this.display(); // refresh tab to update button state
             } catch (e) {
               new Notice(`Init failed: ${(e as Error).message}`);
             }
-          })
-      );
+          });
+      });
 
     new Setting(containerEl)
       .setName("Sync now")
