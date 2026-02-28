@@ -10,6 +10,7 @@ export interface GitHubSyncSettings {
   autoSync: boolean;
   syncIntervalMinutes: number;
   debounceSeconds: number;
+  httpTimeoutSeconds: number;
 }
 
 export const DEFAULT_SETTINGS: GitHubSyncSettings = {
@@ -21,6 +22,7 @@ export const DEFAULT_SETTINGS: GitHubSyncSettings = {
   autoSync: true,
   syncIntervalMinutes: 5,
   debounceSeconds: 10,
+  httpTimeoutSeconds: 300,
 };
 
 export class GitHubSyncSettingTab extends PluginSettingTab {
@@ -150,6 +152,22 @@ export class GitHubSyncSettingTab extends PluginSettingTab {
           .setDynamicTooltip()
           .onChange(async (value) => {
             this.plugin.settings.debounceSeconds = value;
+            await this.plugin.saveSettings();
+          })
+      );
+
+    new Setting(containerEl)
+      .setName("HTTP timeout (seconds)")
+      .setDesc(
+        "Max time to wait for a network request. Increase for large vaults on slow connections."
+      )
+      .addSlider((slider) =>
+        slider
+          .setLimits(30, 600, 30)
+          .setValue(this.plugin.settings.httpTimeoutSeconds)
+          .setDynamicTooltip()
+          .onChange(async (value) => {
+            this.plugin.settings.httpTimeoutSeconds = value;
             await this.plugin.saveSettings();
           })
       );

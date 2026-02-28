@@ -1,7 +1,7 @@
 import * as fs from "fs";
 import * as path from "path";
 import * as git from "isomorphic-git";
-import http from "isomorphic-git/http/node";
+import { makeHttpClient } from "./http-client";
 import { Notice } from "obsidian";
 import type { GitHubSyncSettings } from "./settings";
 import type { StatusBar } from "./status-bar";
@@ -22,6 +22,10 @@ export class SyncEngine {
   }
 
   // ─── Auth ───────────────────────────────────────────────────────────────────
+
+  private get http() {
+    return makeHttpClient(this.settings().httpTimeoutSeconds * 1000);
+  }
 
   private get onAuth() {
     return () => ({
@@ -72,7 +76,7 @@ export class SyncEngine {
     try {
       await git.fetch({
         fs,
-        http,
+        http: this.http,
         dir: this.dir,
         remote: "origin",
         onAuth: this.onAuth,
@@ -179,7 +183,7 @@ export class SyncEngine {
     // fetch first, then merge
     await git.fetch({
       fs,
-      http,
+      http: this.http,
       dir: this.dir,
       remote: "origin",
       onAuth: this.onAuth,
@@ -262,7 +266,7 @@ export class SyncEngine {
   private async push(): Promise<void> {
     const result = await git.push({
       fs,
-      http,
+      http: this.http,
       dir: this.dir,
       remote: "origin",
       ref: this.settings().branch,
