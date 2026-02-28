@@ -266,7 +266,7 @@ export class SyncEngine {
     });
 
     if (!result.ok) {
-      throw new Error(`Push failed: ${JSON.stringify(result.errors)}`);
+      throw new Error(`Push failed: ${JSON.stringify(result.error)}`);
     }
   }
 }
