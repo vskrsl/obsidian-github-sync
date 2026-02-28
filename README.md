@@ -17,21 +17,10 @@ Free alternative to [Obsidian Sync](https://obsidian.md/sync) — automatically 
 
 ## Installation
 
-```bash
-git clone https://github.com/vskrsl/obsidian-github-sync.git
-cd obsidian-github-sync
-npm install
-npm run build
-```
-
-Then copy `main.js` and `manifest.json` into your vault:
-
-```bash
-mkdir -p "<vault>/.obsidian/plugins/github-sync"
-cp main.js manifest.json "<vault>/.obsidian/plugins/github-sync/"
-```
-
-Open Obsidian → Settings → Community plugins → enable **GitHub Sync**.
+1. Download `main.js` and `manifest.json` from [Releases](../../releases)
+2. Create folder `<your-vault>/.obsidian/plugins/github-sync/`
+3. Copy both files into that folder
+4. Open Obsidian → Settings → Community plugins → enable **GitHub Sync**
 
 ## Setup
 
@@ -61,7 +50,7 @@ Click the status bar item to trigger a manual sync.
 |---|---|
 | ⬡ Synced | Vault is up to date |
 | ⟳ Syncing… | Commit / push / pull in progress |
-| ↑ N pending | N file changes waiting for debounce |
+| ↑ N pending | N change events received, waiting for debounce timer before committing. One save can trigger multiple events, so N doesn't equal the number of changed files. |
 | ✗ Sync error | Last sync failed — hover for details |
 
 ## Conflict handling
